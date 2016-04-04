@@ -1,3 +1,21 @@
+This is a fork from TinyDTLS (Version from eclipse) 
+The idea is to adapt it for Riot OS (And Contiki) 
+
+
+Search for the branch for each one:
+ - RIOT-Version
+
+In general, when "compiling" (actually configuring), multipels files
+are generated but for the constrained OS a big part of them are almost
+useless. Plus, currently the Makefile for Contiki are a little deprecated.
+And RIOT is not supported yet.
+
+p.d. This a fork from the master branch of eclipse. 
+https://git.eclipse.org/r/tinydtls/org.eclipse.tinydtls
+
+
+=============================================
+
 CONTENTS 
 
 This library contains functions and structures that can help
