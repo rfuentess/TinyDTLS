@@ -35,7 +35,7 @@
 #include <stdlib.h>
 
 static inline dtls_hmac_context_t *
-dtls_hmac_context_new() {
+dtls_hmac_context_new(void) {
   return (dtls_hmac_context_t *)malloc(sizeof(dtls_hmac_context_t));
 }
 

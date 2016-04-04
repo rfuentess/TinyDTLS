@@ -42,16 +42,16 @@
 
 static int maxlog = DTLS_LOG_WARN;	/* default maximum log level */
 
-const char *dtls_package_name() {
+const char *dtls_package_name(void) {
   return PACKAGE_NAME;
 }
 
-const char *dtls_package_version() {
+const char *dtls_package_version(void) {
   return PACKAGE_VERSION;
 }
 
 log_t 
-dtls_get_log_level() {
+dtls_get_log_level(void) {
   return maxlog;
 }
 
@@ -210,7 +210,7 @@ dsrv_log(log_t level, char *format, ...) {
   va_list ap;
   FILE *log_fd;
 
-  if (maxlog < level)
+  if (maxlog < (int) level)
     return;
 
   log_fd = level <= DTLS_LOG_CRIT ? stderr : stdout;
@@ -292,7 +292,7 @@ dtls_dsrv_hexdump_log(log_t level, const char *name, const unsigned char *buf, s
   FILE *log_fd;
   int n = 0;
 
-  if (maxlog < level)
+  if (maxlog < (int) level)
     return;
 
   log_fd = level <= DTLS_LOG_CRIT ? stderr : stdout;

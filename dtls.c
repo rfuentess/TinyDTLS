@@ -156,7 +156,7 @@ PROCESS(dtls_retransmit_process, "DTLS retransmit process");
 static dtls_context_t the_dtls_context;
 
 static inline dtls_context_t *
-malloc_context() {
+malloc_context(void) {
   return &the_dtls_context;
 }
 
@@ -167,7 +167,7 @@ free_context(dtls_context_t *context) {
 #else /* WITH_CONTIKI */
 
 static inline dtls_context_t *
-malloc_context() {
+malloc_context(void) {
   return (dtls_context_t *)malloc(sizeof(dtls_context_t));
 }
 
@@ -178,7 +178,7 @@ free_context(dtls_context_t *context) {
 #endif
 
 void
-dtls_init() {
+dtls_init(void) {
   dtls_clock_init();
   crypto_init();
   netq_init();
@@ -300,7 +300,7 @@ dtls_create_cookie(dtls_context_t *ctx,
 		   uint8 *msg, size_t msglen,
 		   uint8 *cookie, int *clen) {
   unsigned char buf[DTLS_HMAC_MAX];
-  size_t len, e;
+  ssize_t len, e;
 
   /* create cookie with HMAC-SHA256 over:
    * - SECRET
@@ -557,6 +557,7 @@ static int
 hs_attempt_with_existing_peer(uint8_t *msg, size_t msglen,
     dtls_peer_t *peer)
 {
+    (void) msglen;
     if ((peer) && (peer->state == DTLS_STATE_CONNECTED)) {
       if (msg[0] == DTLS_CT_HANDSHAKE) {
         uint16_t msg_epoch = dtls_uint16_to_int(DTLS_RECORD_HEADER(msg)->epoch);
@@ -643,6 +644,7 @@ calculate_key_block(dtls_context_t *ctx,
 		    dtls_peer_t *peer,
 		    session_t *session,
 		    dtls_peer_type role) {
+  (void) role;
   unsigned char *pre_master_secret;
   int pre_master_len = 0;
   dtls_security_parameters_t *security = dtls_security_params_next(peer);
@@ -942,7 +944,8 @@ static int
 dtls_update_parameters(dtls_context_t *ctx, 
 		       dtls_peer_t *peer,
 		       uint8 *data, size_t data_length) {
-  int i, j;
+  int i;
+  unsigned j;
   int ok;
   dtls_handshake_parameters_t *config = peer->handshake_params;
   dtls_security_parameters_t *security = dtls_security_params(peer);
@@ -1015,7 +1018,7 @@ dtls_update_parameters(dtls_context_t *ctx,
   data_length -= sizeof(uint8) + i;
 
   ok = 0;
-  while (i && !ok) {
+  while ((unsigned) i && !ok) {
     for (j = 0; j < sizeof(compression_methods) / sizeof(uint8); ++j)
       if (dtls_uint8_to_int(data) == compression_methods[j]) {
 	config->compression = compression_methods[j];
@@ -1048,6 +1051,7 @@ check_client_keyexchange(dtls_context_t *ctx,
 			 dtls_handshake_parameters_t *handshake,
 			 uint8 *data, size_t length) {
 
+  (void) ctx;
 #ifdef DTLS_ECC
   if (is_tls_ecdhe_ecdsa_with_aes_128_ccm_8(handshake->cipher)) {
 
@@ -1145,6 +1149,7 @@ clear_hs_hash(dtls_peer_t *peer) {
 static int
 check_finished(dtls_context_t *ctx, dtls_peer_t *peer,
 	       uint8 *data, size_t data_length) {
+  (void) ctx;
   size_t digest_length, label_size;
   const unsigned char *label;
   unsigned char buf[DTLS_HMAC_MAX];
@@ -1520,7 +1525,7 @@ dtls_send_multi(dtls_context_t *ctx, dtls_peer_t *peer,
   /* Guess number of bytes application data actually sent:
    * dtls_prepare_record() tells us in len the number of bytes to
    * send, res will contain the bytes actually sent. */
-  return res <= 0 ? res : overall_len - (len - res);
+  return res <= 0 ? res : (int) (overall_len - (len - res));
 }
 
 static inline int
@@ -1733,6 +1738,7 @@ check_client_certificate_verify(dtls_context_t *ctx,
 				dtls_peer_t *peer,
 				uint8 *data, size_t data_length)
 {
+  (void) ctx;
   dtls_handshake_parameters_t *config = peer->handshake_params;
   int ret;
   unsigned char *result_r;
@@ -1862,7 +1868,7 @@ dtls_send_server_hello(dtls_context_t *ctx, dtls_peer_t *peer)
     p += sizeof(uint8);
   }
 
-  assert(p - buf <= sizeof(buf));
+  assert(p - buf <= (ssize_t) sizeof(buf));
 
   /* TODO use the same record sequence number as in the ClientHello,
      see 4.2.1. Denial-of-Service Countermeasures */
@@ -1898,7 +1904,7 @@ dtls_send_certificate_ecdsa(dtls_context_t *ctx, dtls_peer_t *peer,
   memcpy(p, key->pub_key_y, DTLS_EC_KEY_SIZE);
   p += DTLS_EC_KEY_SIZE;
 
-  assert(p - buf <= sizeof(buf));
+  assert(p - buf <= (ssize_t) sizeof(buf));
 
   return dtls_send_handshake_msg(ctx, peer, DTLS_HT_CERTIFICATE,
 				 buf, p - buf);
@@ -2018,7 +2024,7 @@ dtls_send_server_key_exchange_ecdh(dtls_context_t *ctx, dtls_peer_t *peer,
 
   p = dtls_add_ecdsa_signature_elem(p, point_r, point_s);
 
-  assert(p - buf <= sizeof(buf));
+  assert(p - buf <= (ssize_t) sizeof(buf));
 
   return dtls_send_handshake_msg(ctx, peer, DTLS_HT_SERVER_KEY_EXCHANGE,
 				 buf, p - buf);
@@ -2048,7 +2054,7 @@ dtls_send_server_key_exchange_psk(dtls_context_t *ctx, dtls_peer_t *peer,
   memcpy(p, psk_hint, len);
   p += len;
 
-  assert(p - buf <= sizeof(buf));
+  assert(p - buf <= (ssize_t) sizeof(buf));
 
   return dtls_send_handshake_msg(ctx, peer, DTLS_HT_SERVER_KEY_EXCHANGE,
 				 buf, p - buf);
@@ -2091,7 +2097,7 @@ dtls_send_server_certificate_request(dtls_context_t *ctx, dtls_peer_t *peer)
   dtls_int_to_uint16(p, 0);
   p += sizeof(uint16);
 
-  assert(p - buf <= sizeof(buf));
+  assert(p - buf <= (ssize_t) sizeof(buf));
 
   return dtls_send_handshake_msg(ctx, peer, DTLS_HT_CERTIFICATE_REQUEST,
 				 buf, p - buf);
@@ -2271,7 +2277,7 @@ dtls_send_client_key_exchange(dtls_context_t *ctx, dtls_peer_t *peer)
     return dtls_alert_fatal_create(DTLS_ALERT_INTERNAL_ERROR);
   }
 
-  assert(p - buf <= sizeof(buf));
+  assert(p - buf <= (ssize_t) sizeof(buf));
 
   return dtls_send_handshake_msg(ctx, peer, DTLS_HT_CLIENT_KEY_EXCHANGE,
 				 buf, p - buf);
@@ -2307,7 +2313,7 @@ dtls_send_certificate_verify_ecdh(dtls_context_t *ctx, dtls_peer_t *peer,
 
   p = dtls_add_ecdsa_signature_elem(p, point_r, point_s);
 
-  assert(p - buf <= sizeof(buf));
+  assert(p - buf <= (ssize_t) sizeof(buf));
 
   return dtls_send_handshake_msg(ctx, peer, DTLS_HT_CERTIFICATE_VERIFY,
 				 buf, p - buf);
@@ -2339,7 +2345,7 @@ dtls_send_finished(dtls_context_t *ctx, dtls_peer_t *peer,
 
   p += DTLS_FIN_LENGTH;
 
-  assert(p - buf <= sizeof(buf));
+  assert(p - buf <= (ssize_t) sizeof(buf));
 
   return dtls_send_handshake_msg(ctx, peer, DTLS_HT_FINISHED,
 				 buf, p - buf);
@@ -2487,7 +2493,7 @@ dtls_send_client_hello(dtls_context_t *ctx, dtls_peer_t *peer,
     p += sizeof(uint8);
   }
 
-  assert(p - buf <= sizeof(buf));
+  assert(p - buf <= (ssize_t) sizeof(buf));
 
   if (cookie_length != 0)
     clear_hs_hash(peer);
@@ -2641,6 +2647,7 @@ check_server_key_exchange_ecdsa(dtls_context_t *ctx,
 				dtls_peer_t *peer,
 				uint8 *data, size_t data_length)
 {
+  (void) ctx;
   dtls_handshake_parameters_t *config = peer->handshake_params;
   int ret;
   unsigned char *result_r;
@@ -2724,6 +2731,7 @@ check_server_key_exchange_psk(dtls_context_t *ctx,
 			      dtls_peer_t *peer,
 			      uint8 *data, size_t data_length)
 {
+  (void) ctx;
   dtls_handshake_parameters_t *config = peer->handshake_params;
   uint16_t len;
 
@@ -2763,6 +2771,7 @@ check_certificate_request(dtls_context_t *ctx,
 			  dtls_peer_t *peer,
 			  uint8 *data, size_t data_length)
 {
+  (void) ctx;
   unsigned int i;
   int auth_alg;
   int sig_alg;
@@ -3508,6 +3517,7 @@ static int
 handle_ccs(dtls_context_t *ctx, dtls_peer_t *peer, 
 	   uint8 *record_header, uint8 *data, size_t data_length)
 {
+  (void) record_header;
   int err;
   dtls_handshake_parameters_t *handshake = peer->handshake_params;
 
@@ -3546,6 +3556,7 @@ handle_ccs(dtls_context_t *ctx, dtls_peer_t *peer,
 static int
 handle_alert(dtls_context_t *ctx, dtls_peer_t *peer, 
 	     uint8 *record_header, uint8 *data, size_t data_length) {
+  (void) record_header;
   int free_peer = 0;		/* indicates whether to free peer */
 
   if (data_length < 2)
@@ -3802,13 +3813,13 @@ dtls_context_t *
 dtls_new_context(void *app_data) {
   dtls_context_t *c;
   dtls_tick_t now;
-#ifndef WITH_CONTIKI
+#if !(defined(WITH_CONTIKI) || defined(RIOT_VERSION))
   FILE *urandom = fopen("/dev/urandom", "r");
   unsigned char buf[sizeof(unsigned long)];
 #endif /* WITH_CONTIKI */
 
   dtls_ticks(&now);
-#ifdef WITH_CONTIKI
+#if (defined(WITH_CONTIKI) || defined(RIOT_VERSION))
   /* FIXME: need something better to init PRNG here */
   dtls_prng_init(now);
 #else /* WITH_CONTIKI */

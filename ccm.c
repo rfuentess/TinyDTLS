@@ -31,7 +31,7 @@
 #define MASK_L(_L) ((1 << 8 * _L) - 1)
 
 #define SET_COUNTER(A,L,cnt,C) {					\
-    int i;								\
+    unsigned int i;								\
     memset((A) + DTLS_CCM_BLOCKSIZE - (L), 0, (L));			\
     (C) = (cnt) & MASK_L(L);						\
     for (i = DTLS_CCM_BLOCKSIZE - 1; (C) && (i > (L)); --i, (C) >>= 8)	\
@@ -45,7 +45,7 @@ block0(size_t M,       /* number of auth bytes */
        size_t lm,      /* l(m) message length */
        unsigned char nonce[DTLS_CCM_BLOCKSIZE],
        unsigned char *result) {
-  int i;
+  unsigned int i;
 
   result[0] = CCM_FLAGS(la, M, L);
 
