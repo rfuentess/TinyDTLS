@@ -139,7 +139,7 @@ void dtls_handshake_free(dtls_handshake_parameters_t *handshake)
   if (!handshake)
     return;
 
-  netq_delete_all(handshake->reorder_queue);
+  netq_delete_all(&handshake->reorder_queue);
   dtls_handshake_dealloc(handshake);
 }
 
