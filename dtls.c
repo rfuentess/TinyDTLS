@@ -46,7 +46,7 @@
 #include "prng.h"
 
 #ifdef WITH_SHA256
-#  include "sha2/sha2.h"
+#include "sha2/sha2.h"
 #endif
 
 #define dtls_set_version(H,V) dtls_int_to_uint16((H)->version, (V))
