@@ -4,7 +4,6 @@ core
 *.gz
 *.cap
 *.pcap
-Makefile
 autom4te.cache/
 config.h
 config.log
