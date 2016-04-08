@@ -26,7 +26,7 @@
 #endif
 #endif
 
-#if !(defined(WITH_CONTIKI) || defined(RIOT_VERSION))
+#if (defined(WITH_CONTIKI) || defined(RIOT_VERSION))
 #define _dtls_address_equals_impl(A,B)				\
   ((A)->size == (B)->size					\
    && (A)->port == (B)->port					\
