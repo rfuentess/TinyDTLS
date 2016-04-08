@@ -22,10 +22,9 @@
 #include "tinydtls.h"
 #include "global.h"
 
-#if (defined(WITH_CONTIKI) || defined(RIOT_VERSION))
+
 #ifdef WITH_CONTIKI
 #include "ip/uip.h"
-#endif
 typedef struct {
   unsigned char size;
   uip_ipaddr_t addr;
@@ -33,6 +32,14 @@ typedef struct {
   int ifindex;
 } session_t;
 //TODO: Insert defines for RIOT
+#elif defined(RIOT_VERSION)
+#include "net/ipv6/addr.h"
+typedef struct {
+  unsigned char size;
+  ipv6_addr_t addr;
+  unsigned short port;
+  int ifindex;
+} session_t;
 #else /* WITH_CONTIKI */
 
 #include <sys/socket.h>
