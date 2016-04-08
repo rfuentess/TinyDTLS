@@ -46,6 +46,7 @@ typedef unsigned char uint48[6];
 /** Maximum size of DTLS message.
     When Peers are sending bigger messages this causes problems. Californium
     with ECDSA needs at least 220 */
+/*TODO: This should have support for RIOT too! (Save memory!)*/
 #ifdef WITH_CONTIKI
 #ifdef DTLS_ECC
 #define DTLS_MAX_BUF 200

@@ -30,7 +30,7 @@ typedef struct {
   unsigned short port;
   int ifindex;
 } session_t;
-
+//TODO: Insert defines for RIOT
 #else /* WITH_CONTIKI */
 
 #include <sys/socket.h>
