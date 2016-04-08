@@ -26,8 +26,7 @@
 #endif
 #endif
 
-//TODO: Adding RIOT support
-#ifdef WITH_CONTIKI
+#if !(defined(WITH_CONTIKI) || defined(RIOT_VERSION))
 #define _dtls_address_equals_impl(A,B)				\
   ((A)->size == (B)->size					\
    && (A)->port == (B)->port					\

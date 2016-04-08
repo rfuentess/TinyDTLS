@@ -22,8 +22,10 @@
 #include "tinydtls.h"
 #include "global.h"
 
+#if !(defined(WITH_CONTIKI) || defined(RIOT_VERSION))
 #ifdef WITH_CONTIKI
 #include "ip/uip.h"
+#endif
 typedef struct {
   unsigned char size;
   uip_ipaddr_t addr;
