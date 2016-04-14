@@ -5,7 +5,8 @@
 /* #undef AC_APPLE_UNIVERSAL_BUILD */
 
 /* Define to 1 if building with ECC support. */
-#define DTLS_ECC 1
+#undef DTLS_EC
+//#define DTLS_ECC 1
 
 /* Define to 1 if building with PSK support */
 #define DTLS_PSK 1
