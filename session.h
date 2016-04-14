@@ -32,7 +32,7 @@ typedef struct {
   int ifindex;
 } session_t;
 //TODO: Insert defines for RIOT
-#elif defined(RIOT_VERSION)
+#elif defined(WITH_RIOT_GNRC)
 #include "net/ipv6/addr.h"
 typedef struct {
   unsigned char size;

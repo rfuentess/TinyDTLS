@@ -35,3 +35,31 @@
 /* #undef WITH_CONTIKI */
 
 #endif /* _DTLS_TINYDTLS_H_ */
+
+/*
+ *  Some testings were made with RIOT and GNRC. 
+ *  However, due  untracked problem for generating the first DTLS flight 
+ *  I  (rfuentess) dropped them for now and returned to Sockets (RIOT support
+ *  both of them).  This generates two instances for RIOT.
+ *  
+ *  The pair of defines here  will have the major impact in session.c 
+ *  Where WITH_RIOT_GNRC will generate   similar approach than WITH_CONTIKI
+ *  meanwhile WITH_RIOT_SOCKETS will be compiling like a Linux version 
+ *  with the sockets.
+ * 
+ *  NOTE: The previous RIOT_VERSION is defined by RIOT. 
+ */
+
+//#undef  WITH_RIOT_GNRC
+//#define WITH_RIOT_SOCKETS
+
+#define  WITH_RIOT_GNRC
+#undef WITH_RIOT_SOCKETS
+
+#if defined(WITH_RIOT_GNRC) && defined(WITH_RIOT_SOCKETS)
+#error "TinyDTLS for RIOT can only be compiled with the use of GNRC OR sockets."
+#elif !(defined(WITH_RIOT_GNRC)) && !(defined(WITH_RIOT_SOCKETS)) && defined(RIOT_VERSION)
+#error "RIOT is being used with TinyDTLS but WITH_RIOT_GNRC or WITH_RIOT_SOCKETS need be configured"
+#endif
+
+
