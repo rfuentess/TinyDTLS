@@ -2589,7 +2589,7 @@ check_server_hello_verify_request(dtls_context_t *ctx,
   res = dtls_send_client_hello(ctx, peer, hv->cookie, hv->cookie_length);
 
   if (res < 0)
-    dtls_warn("cannot send ClientHello\n");
+    dtls_warn("cannot send ClientHello 1\n");
 
   return res;
 }
@@ -3022,7 +3022,7 @@ dtls_renegotiate(dtls_context_t *ctx, const session_t *dst)
     /* send ClientHello with empty Cookie */
     err = dtls_send_client_hello(ctx, peer, NULL, 0);
     if (err < 0)
-      dtls_warn("cannot send ClientHello\n");
+      dtls_warn("cannot send ClientHello 2\n");
     else
       peer->state = DTLS_STATE_CLIENTHELLO;
     return err;
@@ -3385,7 +3385,7 @@ handle_handshake_msg(dtls_context_t *ctx, dtls_peer_t *peer, session_t *session,
     /* send ClientHello with empty Cookie */
     err = dtls_send_client_hello(ctx, peer, NULL, 0);
     if (err < 0) {
-      dtls_warn("cannot send ClientHello\n");
+      dtls_warn("cannot send ClientHello 3\n");
       return err;
     }
     peer->state = DTLS_STATE_CLIENTHELLO;
@@ -3924,7 +3924,7 @@ dtls_connect_peer(dtls_context_t *ctx, dtls_peer_t *peer) {
   peer->handshake_params->hs_state.mseq_s = 0;
   res = dtls_send_client_hello(ctx, peer, NULL, 0);
   if (res < 0)
-    dtls_warn("cannot send ClientHello\n");
+    dtls_warn("cannot send ClientHello 4\n");
   else 
     peer->state = DTLS_STATE_CLIENTHELLO;
 

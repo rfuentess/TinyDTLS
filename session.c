@@ -37,7 +37,7 @@
 #define _dtls_address_equals_impl(A,B)                          \
   ((A)->size == (B)->size                                       \
    && (A)->port == (B)->port                                    \
-   && ipv6_addr_equal(&((A)->addr),&((B)->addr))            \
+   && ipv6_addr_equal(&((A)->addr),&((B)->addr))                \
    && (A)->ifindex == (B)->ifindex)
 #else /* WITH_CONTIKI */
 
