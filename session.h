@@ -37,7 +37,8 @@ typedef struct {
 typedef struct {
   unsigned char size;
   ipv6_addr_t addr;
-  uint8_t port[2]; /* TODO: More testings */
+  //uint8_t port[2]; /* TODO: More testings */
+  unsigned short port;
   int ifindex;
 } session_t;
 #else /* WITH_CONTIKI */
