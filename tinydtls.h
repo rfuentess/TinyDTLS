@@ -25,8 +25,8 @@
 #define _DTLS_TINYDTLS_H_
 
 /** Defined to 1 if tinydtls is built with support for ECC */
-#undef DTLS_EC
-//#define DTLS_ECC 1
+//#undef DTLS_EC
+#define DTLS_ECC 1
 
 /** Defined to 1 if tinydtls is built with support for PSK */
 #define DTLS_PSK 1

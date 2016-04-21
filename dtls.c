@@ -3818,8 +3818,10 @@ dtls_new_context(void *app_data) {
  * will be replaced with defined(RIOT_VERSION).
  * ONLY HERE
  */
-#if !(defined(WITH_CONTIKI) && !(defined(RIOT_VERSION) )) 
-  FILE *m  = fopen("/dev/urandom", "r");
+
+#if !(defined(WITH_CONTIKI)) && !(defined(RIOT_VERSION) ) 
+   FILE *m;
+   *m  = fopen("/dev/urandom", "r");
   unsigned char buf[sizeof(unsigned long)];
 #endif /* WITH_CONTIKI */
 

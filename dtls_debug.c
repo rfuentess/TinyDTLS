@@ -160,7 +160,7 @@ dsrv_print_addr(const session_t *addr, char *buf, size_t len) {
 
   return p - buf;
 #else /* HAVE_ARPA_INET_H */
-# if WITH_CONTIKI
+#if WITH_CONTIKI
   char *p = buf;
 #  ifdef UIP_CONF_IPV6
   uint8_t i;
@@ -193,9 +193,14 @@ dsrv_print_addr(const session_t *addr, char *buf, size_t len) {
   p += sprintf(p, ":%d", uip_htons(addr->port));
 
   return p - buf;
-# else /* WITH_CONTIKI */
+# elif defined(RIOT_VERSION) /* WITH_CONTIKI */
+  /*RIOT is strict with warnings and unused vars */
+  (void) addr;
+  (void) buf;
+  (void) len;
+#else  
   /* TODO: output addresses manually */
-#   warning "inet_ntop() not available, network addresses will not be included in debug output"
+#warning "inet_ntop() not available, network addresses will not be included in debug output"
 # endif /* WITH_CONTIKI */
   return 0;
 #endif
