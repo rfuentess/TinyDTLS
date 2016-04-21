@@ -63,3 +63,13 @@
 #endif
 
 
+=======
+#undef  WITH_RIOT_GNRC
+#define WITH_RIOT_SOCKETS
+
+#if (defined(WITH_RIOT_GNRC) && (defined(WITH_RIOT_SOCKETS)
+#error "TinyDTLS for RIOT can only be compiled with the use of GNRC OR sockets."
+#elif !(defined(WITH_RIOT_GNRC) && !(defined(WITH_RIOT_SOCKETS) && RIOT_VERSION
+#error "RIOT is being used with TinyDTLS but WITH_RIOT_GNRC or WITH_RIOT_SOCKETS need be configured"
+#endif
+
