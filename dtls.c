@@ -475,6 +475,7 @@ static inline int is_tls_ecdhe_ecdsa_with_aes_128_ccm_8(dtls_cipher_t cipher)
 #ifdef DTLS_ECC
   return cipher == TLS_ECDHE_ECDSA_WITH_AES_128_CCM_8;
 #else
+  (void) cipher;
   return 0;
 #endif /* DTLS_ECC */
 }
@@ -495,6 +496,7 @@ static inline int is_psk_supported(dtls_context_t *ctx)
 #ifdef DTLS_PSK
   return ctx && ctx->h && ctx->h->get_psk_info;
 #else
+  (void) ctx;
   return 0;
 #endif /* DTLS_PSK */
 }
@@ -506,6 +508,8 @@ static inline int is_ecdsa_supported(dtls_context_t *ctx, int is_client)
   return ctx && ctx->h && ((!is_client && ctx->h->get_ecdsa_key) || 
 			   (is_client && ctx->h->verify_ecdsa_key));
 #else
+  (void) ctx;
+  (void) is_client;
   return 0;
 #endif /* DTLS_ECC */
 }
@@ -517,6 +521,7 @@ static inline int is_ecdsa_client_auth_supported(dtls_context_t *ctx)
 #ifdef DTLS_ECC
   return ctx && ctx->h && ctx->h->get_ecdsa_key && ctx->h->verify_ecdsa_key;
 #else
+  (void) ctx;
   return 0;
 #endif /* DTLS_ECC */
 }
