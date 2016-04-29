@@ -6,7 +6,7 @@
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
  *
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
- * and the Eclipse Distribution License is available at 
+ * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
  *
  * Contributors:
@@ -63,7 +63,7 @@ typedef unsigned char uint48[6];
 #endif
 
 /** Known cipher suites.*/
-typedef enum { 
+typedef enum {
   TLS_NULL_WITH_NULL_NULL = 0x0000,   /**< NULL cipher  */
   TLS_PSK_WITH_AES_128_CCM_8 = 0xC0A8, /**< see RFC 6655 */
   TLS_ECDHE_ECDSA_WITH_AES_128_CCM_8 = 0xC0AE /**< see RFC 7251 */
@@ -94,7 +94,7 @@ typedef enum {
 #define TLS_EXT_SIG_HASH_ALGO_SHA256		4 /* see RFC 5246 */
 #define TLS_EXT_SIG_HASH_ALGO_ECDSA		3 /* see RFC 5246 */
 
-/** 
+/**
  * XORs \p n bytes byte-by-byte starting at \p y to the memory area
  * starting at \p x. */
 static inline void
@@ -127,7 +127,7 @@ equals(unsigned char *a, unsigned char *b, size_t len) {
 #ifdef HAVE_FLS
 #define dtls_fls(i) fls(i)
 #else
-static inline int 
+static inline int
 dtls_fls(unsigned int i) {
   int n;
   for (n = 0; i; n++)

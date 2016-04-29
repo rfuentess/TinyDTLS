@@ -7,7 +7,7 @@
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
  *
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
- * and the Eclipse Distribution License is available at 
+ * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
  *
  * Contributors:
@@ -38,12 +38,12 @@
 #endif /* _DTLS_TINYDTLS_H_ */
 
 /*
- *  The pair of defines here  will have the major impact in session.c 
+ *  The pair of defines here  will have the major impact in session.c
  *  Where WITH_RIOT_GNRC will generate   similar approach than WITH_CONTIKI
- *  meanwhile WITH_RIOT_SOCKETS will be compiling like a Linux version 
+ *  meanwhile WITH_RIOT_SOCKETS will be compiling like a Linux version
  *  with the sockets.
- * 
- *  NOTE: The previous RIOT_VERSION is defined by RIOT. 
+ *
+ *  NOTE: The previous RIOT_VERSION is defined by RIOT.
  */
 
 

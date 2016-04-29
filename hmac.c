@@ -6,7 +6,7 @@
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
  *
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
- * and the Eclipse Distribution License is available at 
+ * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
  *
  * Contributors:
@@ -76,7 +76,7 @@ dtls_hmac_new(const unsigned char *key, size_t klen) {
   dtls_hmac_context_t *ctx;
 
   ctx = dtls_hmac_context_new();
-  if (ctx) 
+  if (ctx)
     dtls_hmac_init(ctx, key, klen);
 
   return ctx;
@@ -118,11 +118,11 @@ dtls_hmac_free(dtls_hmac_context_t *ctx) {
 int
 dtls_hmac_finalize(dtls_hmac_context_t *ctx, unsigned char *result) {
   unsigned char buf[DTLS_HMAC_DIGEST_SIZE];
-  size_t len; 
+  size_t len;
 
   assert(ctx);
   assert(result);
-  
+
   len = dtls_hash_finalize(buf, &ctx->data);
 
   dtls_hash_init(&ctx->data);
@@ -151,10 +151,10 @@ int main(int argc, char **argv) {
   ctx = dtls_hmac_new(argv[1], strlen(argv[1]));
   assert(ctx);
   dtls_hmac_update(ctx, argv[2], strlen(argv[2]));
-  
+
   len = dtls_hmac_finalize(ctx, buf);
 
-  for(i = 0; i < len; i++) 
+  for(i = 0; i < len; i++)
     printf("%02x", buf[i]);
   printf("\n");
 

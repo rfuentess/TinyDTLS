@@ -6,7 +6,7 @@
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
  *
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
- * and the Eclipse Distribution License is available at 
+ * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
  *
  * Contributors:
@@ -53,7 +53,7 @@ static inline void check_stack(void) {
 #endif
 
 /** Pre-defined log levels akin to what is used in \b syslog. */
-typedef enum { DTLS_LOG_EMERG=0, DTLS_LOG_ALERT, DTLS_LOG_CRIT, DTLS_LOG_WARN, 
+typedef enum { DTLS_LOG_EMERG=0, DTLS_LOG_ALERT, DTLS_LOG_CRIT, DTLS_LOG_WARN,
        DTLS_LOG_NOTICE, DTLS_LOG_INFO, DTLS_LOG_DEBUG
 } log_t;
 
@@ -69,7 +69,7 @@ log_t dtls_get_log_level(void);
 /** Sets the log level to the specified value. */
 void dtls_set_log_level(log_t level);
 
-/** 
+/**
  * Writes the given text to \c stdout. The text is output only when \p
  * level is below or equal to the log level that set by
  * set_log_level(). */

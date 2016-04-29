@@ -6,7 +6,7 @@
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
  *
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
- * and the Eclipse Distribution License is available at 
+ * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
  *
  * Contributors:
@@ -36,9 +36,9 @@
 #define DTLS_MAC_LENGTH        DTLS_HMAC_DIGEST_SIZE
 #define DTLS_IV_LENGTH         4  /* length of nonce_explicit */
 
-/** 
- * Maximum size of the generated keyblock. Note that MAX_KEYBLOCK_LENGTH must 
- * be large enough to hold the pre_master_secret, i.e. twice the length of the 
+/**
+ * Maximum size of the generated keyblock. Note that MAX_KEYBLOCK_LENGTH must
+ * be large enough to hold the pre_master_secret, i.e. twice the length of the
  * pre-shared key + 1.
  */
 #define MAX_KEYBLOCK_LENGTH  \
@@ -48,7 +48,7 @@
 #define DTLS_MASTER_SECRET_LENGTH 48
 #define DTLS_RANDOM_LENGTH 32
 
-typedef enum { AES128=0 
+typedef enum { AES128=0
 } dtls_crypto_alg;
 
 typedef enum {
@@ -92,7 +92,7 @@ typedef struct {
   uint16_t epoch;	     /**< counter for cipher state changes*/
   uint64_t rseq;	     /**< sequence number of last record sent */
 
-  /** 
+  /**
    * The key block generated from PRF applied to client and server
    * random bytes. The actual size is given by the selected cipher and
    * can be calculated using dtls_kb_size(). Use \c dtls_kb_ macros to
@@ -177,15 +177,15 @@ typedef struct {
 /* just for consistency */
 #define dtls_kb_digest_size(Param, Role) DTLS_MAC_LENGTH
 
-/** 
- * Expands the secret and key to a block of DTLS_HMAC_MAX 
+/**
+ * Expands the secret and key to a block of DTLS_HMAC_MAX
  * size according to the algorithm specified in section 5 of
  * RFC 4346.
  *
  * \param h       Identifier of the hash function to use.
  * \param key     The secret.
  * \param keylen  Length of \p key.
- * \param seed    The seed. 
+ * \param seed    The seed.
  * \param seedlen Length of \p seed.
  * \param buf     Output buffer where the result is XORed into
  *                The buffe must be capable to hold at least
@@ -193,7 +193,7 @@ typedef struct {
  * \return The actual number of bytes written to \p buf or 0
  * on error.
  */
-size_t dtls_p_hash(dtls_hashfunc_t h, 
+size_t dtls_p_hash(dtls_hashfunc_t h,
 		   const unsigned char *key, size_t keylen,
 		   const unsigned char *label, size_t labellen,
 		   const unsigned char *random1, size_t random1len,
@@ -219,7 +219,7 @@ size_t dtls_prf(const unsigned char *key, size_t keylen,
  * buffer of at least \c sizeof(dtls_record_header_t) bytes. Usually,
  * the remaining packet will be encrypted, therefore, the cleartext
  * is passed separately in \p packet.
- * 
+ *
  * \param hmac_ctx  The HMAC context to use for MAC calculation.
  * \param record    The record header.
  * \param packet    Cleartext payload to apply the MAC to.
@@ -227,12 +227,12 @@ size_t dtls_prf(const unsigned char *key, size_t keylen,
  * \param buf       A result buffer that is large enough to hold
  *                  the generated digest.
  */
-void dtls_mac(dtls_hmac_context_t *hmac_ctx, 
+void dtls_mac(dtls_hmac_context_t *hmac_ctx,
 	      const unsigned char *record,
 	      const unsigned char *packet, size_t length,
 	      unsigned char *buf);
 
-/** 
+/**
  * Encrypts the specified \p src of given \p length, writing the
  * result to \p buf. The cipher implementation may add more data to
  * the result buffer such as an initialization vector or padding
@@ -245,12 +245,12 @@ void dtls_mac(dtls_hmac_context_t *hmac_ctx,
  * \param ctx    The cipher context to use.
  * \param src    The data to encrypt.
  * \param length The actual size of of \p src.
- * \param buf    The result buffer. \p src and \p buf must not 
+ * \param buf    The result buffer. \p src and \p buf must not
  *               overlap.
  * \param aad    additional data for AEAD ciphers
  * \param aad_length actual size of @p aad
  * \return The number of encrypted bytes on success, less than zero
- *         otherwise. 
+ *         otherwise.
  */
 int dtls_encrypt(const unsigned char *src, size_t length,
 		 unsigned char *buf,
@@ -258,22 +258,22 @@ int dtls_encrypt(const unsigned char *src, size_t length,
 		 unsigned char *key, size_t keylen,
 		 const unsigned char *aad, size_t aad_length);
 
-/** 
+/**
  * Decrypts the given buffer \p src of given \p length, writing the
  * result to \p buf. The function returns \c -1 in case of an error,
  * or the number of bytes written. Note that for block ciphers, \p
  * length must be a multiple of the cipher's block size. A return
  * value between \c 0 and the actual length indicates that only \c n-1
  * block have been processed. Unlike dtls_encrypt(), the source
- * and destination of dtls_decrypt() may overlap. 
- * 
+ * and destination of dtls_decrypt() may overlap.
+ *
  * \param ctx     The cipher context to use.
  * \param src     The buffer to decrypt.
- * \param length  The length of the input buffer. 
+ * \param length  The length of the input buffer.
  * \param buf     The result buffer.
  * \param aad     additional authentication data for AEAD ciphers
  * \param aad_length actual size of @p aad
- * \return Less than zero on error, the number of decrypted bytes 
+ * \return Less than zero on error, the number of decrypted bytes
  *         otherwise.
  */
 int dtls_decrypt(const unsigned char *src, size_t length,
@@ -284,7 +284,7 @@ int dtls_decrypt(const unsigned char *src, size_t length,
 
 /* helper functions */
 
-/** 
+/**
  * Generates pre_master_sercet from given PSK and fills the result
  * according to the "plain PSK" case in section 2 of RFC 4279.
  * Diffie-Hellman and RSA key exchange are currently not supported.

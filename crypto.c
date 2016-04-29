@@ -6,7 +6,7 @@
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
  *
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
- * and the Eclipse Distribution License is available at 
+ * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
  *
  * Contributors:
@@ -127,7 +127,7 @@ dtls_handshake_parameters_t *dtls_handshake_new(void)
     /* initialize the handshake hash wrt. the hard-coded DTLS version */
     dtls_debug("DTLSv12: initialize HASH_SHA256\n");
     /* TLS 1.2:  PRF(secret, label, seed) = P_<hash>(secret, label + seed) */
-    /* FIXME: we use the default SHA256 here, might need to support other 
+    /* FIXME: we use the default SHA256 here, might need to support other
               hash functions as well */
     dtls_hash_init(&handshake->hs_state.hs_hash);
   }
@@ -222,11 +222,11 @@ dtls_p_hash(dtls_hashfunc_t h,
 
   dtls_hmac_init(hmac_p, key, keylen);
   dtls_hmac_update(hmac_p, A, dlen);
-  
+
   HMAC_UPDATE_SEED(hmac_p, label, labellen);
   HMAC_UPDATE_SEED(hmac_p, random1, random1len);
   HMAC_UPDATE_SEED(hmac_p, random2, random2len);
-  
+
   dtls_hmac_finalize(hmac_p, tmp);
   memcpy(buf, tmp, buflen - len);
 
@@ -237,7 +237,7 @@ dtls_p_hash(dtls_hashfunc_t h,
   return buflen;
 }
 
-size_t 
+size_t
 dtls_prf(const unsigned char *key, size_t keylen,
 	 const unsigned char *label, size_t labellen,
 	 const unsigned char *random1, size_t random1len,
@@ -246,16 +246,16 @@ dtls_prf(const unsigned char *key, size_t keylen,
 
   /* Clear the result buffer */
   memset(buf, 0, buflen);
-  return dtls_p_hash(HASH_SHA256, 
-		     key, keylen, 
-		     label, labellen, 
+  return dtls_p_hash(HASH_SHA256,
+		     key, keylen,
+		     label, labellen,
 		     random1, random1len,
 		     random2, random2len,
 		     buf, buflen);
 }
 
 void
-dtls_mac(dtls_hmac_context_t *hmac_ctx, 
+dtls_mac(dtls_hmac_context_t *hmac_ctx,
 	 const unsigned char *record,
 	 const unsigned char *packet, size_t length,
 	 unsigned char *buf) {
@@ -267,13 +267,13 @@ dtls_mac(dtls_hmac_context_t *hmac_ctx,
   dtls_hmac_update(hmac_ctx, record, sizeof(uint8) + sizeof(uint16));
   dtls_hmac_update(hmac_ctx, L, sizeof(uint16));
   dtls_hmac_update(hmac_ctx, packet, length);
-  
+
   dtls_hmac_finalize(hmac_ctx, buf);
 }
 
 static size_t
 dtls_ccm_encrypt(aes128_ccm_t *ccm_ctx, const unsigned char *src, size_t srclen,
-		 unsigned char *buf, 
+		 unsigned char *buf,
 		 unsigned char *nounce,
 		 const unsigned char *aad, size_t la) {
   (void) src;
@@ -281,10 +281,10 @@ dtls_ccm_encrypt(aes128_ccm_t *ccm_ctx, const unsigned char *src, size_t srclen,
 
   assert(ccm_ctx);
 
-  len = dtls_ccm_encrypt_message(&ccm_ctx->ctx, 8 /* M */, 
+  len = dtls_ccm_encrypt_message(&ccm_ctx->ctx, 8 /* M */,
 				 max(2, 15 - DTLS_CCM_NONCE_SIZE),
 				 nounce,
-				 buf, srclen, 
+				 buf, srclen,
 				 aad, la);
   return len;
 }
@@ -299,10 +299,10 @@ dtls_ccm_decrypt(aes128_ccm_t *ccm_ctx, const unsigned char *src,
 
   assert(ccm_ctx);
 
-  len = dtls_ccm_decrypt_message(&ccm_ctx->ctx, 8 /* M */, 
+  len = dtls_ccm_decrypt_message(&ccm_ctx->ctx, 8 /* M */,
 				 max(2, 15 - DTLS_CCM_NONCE_SIZE),
 				 nounce,
-				 buf, srclen, 
+				 buf, srclen,
 				 aad, la);
   return len;
 }
@@ -325,7 +325,7 @@ dtls_psk_pre_master_secret(unsigned char *key, size_t keylen,
 
   memcpy(p, result, sizeof(uint16));
   p += sizeof(uint16);
-  
+
   memcpy(p, key, keylen);
 
   return 2 * (sizeof(uint16) + keylen);
@@ -357,7 +357,7 @@ int dtls_ec_key_from_uint32_asn1(const uint32_t *key, size_t key_size,
 				 unsigned char *buf) {
   int i;
   unsigned char *buf_orig = buf;
-  int first = 1; 
+  int first = 1;
 
   for (i = (key_size / sizeof(uint32_t)) - 1; i >= 0 ; i--) {
     if (key[i] == 0)
@@ -367,7 +367,7 @@ int dtls_ec_key_from_uint32_asn1(const uint32_t *key, size_t key_size,
       *buf = 0;
       buf++;
       dtls_int_to_uint32(buf, key[i]);
-      buf += 4;      
+      buf += 4;
     } else if (first && !(key[i] & 0xFF800000)) {
       buf[0] = (key[i] >> 16) & 0xff;
       buf[1] = (key[i] >> 8) & 0xff;
@@ -444,7 +444,7 @@ dtls_ecdsa_create_sig_hash(const unsigned char *priv_key, size_t key_size,
   uint32_t priv[8];
   uint32_t hash[8];
   uint32_t rand[8];
-  
+
   dtls_ec_key_to_uint32(priv_key, key_size, priv);
   dtls_ec_key_to_uint32(sign_hash, sign_hash_size, hash);
   do {
@@ -467,7 +467,7 @@ dtls_ecdsa_create_sig(const unsigned char *priv_key, size_t key_size,
   dtls_hash_update(&data, server_random, server_random_size);
   dtls_hash_update(&data, keyx_params, keyx_params_size);
   dtls_hash_finalize(sha256hash, &data);
-  
+
   dtls_ecdsa_create_sig_hash(priv_key, key_size, sha256hash,
 			     sizeof(sha256hash), point_r, point_s);
 }
@@ -502,7 +502,7 @@ dtls_ecdsa_verify_sig(const unsigned char *pub_key_x,
 		      unsigned char *result_r, unsigned char *result_s) {
   dtls_hash_ctx data;
   unsigned char sha256hash[DTLS_HMAC_DIGEST_SIZE];
-  
+
   dtls_hash_init(&data);
   dtls_hash_update(&data, client_random, client_random_size);
   dtls_hash_update(&data, server_random, server_random_size);
@@ -514,7 +514,7 @@ dtls_ecdsa_verify_sig(const unsigned char *pub_key_x,
 }
 #endif /* DTLS_ECC */
 
-int 
+int
 dtls_encrypt(const unsigned char *src, size_t length,
 	     unsigned char *buf,
 	     unsigned char *nounce,
@@ -540,7 +540,7 @@ error:
   return ret;
 }
 
-int 
+int
 dtls_decrypt(const unsigned char *src, size_t length,
 	     unsigned char *buf,
 	     unsigned char *nounce,
