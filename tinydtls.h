@@ -26,11 +26,11 @@
 
 /** Defined to 1 if tinydtls is built with support for ECC */
 //#undef DTLS_ECC
-#define DTLS_ECC 1
+//#define DTLS_ECC 1
 
 /** Defined to 1 if tinydtls is built with support for PSK */
 //#undef DTLS_PSK
-#define DTLS_PSK 1
+//#define DTLS_PSK 1
 
 /** Defined to 1 if tinydtls is built for Contiki OS */
 /* #undef WITH_CONTIKI */
@@ -45,10 +45,12 @@
  *
  *  NOTE: The previous RIOT_VERSION is defined by RIOT.
  */
-
-
 #if defined(WITH_RIOT_GNRC) && defined(WITH_RIOT_SOCKETS)
 #error "TinyDTLS for RIOT can only be compiled with the use of GNRC OR sockets."
 #elif !(defined(WITH_RIOT_GNRC)) && !(defined(WITH_RIOT_SOCKETS)) && defined(RIOT_VERSION)
 #error "TinyDTLS must be configured for RIOT with WITH_RIOT_GNRC or WITH_RIOT_SOCKETS"
 #endif
+
+#if !defined(DTLS_ECC) && !defined(DTLS_PSK)
+#error "TinyDTLS requires at least one Cipher suite!"
+#endif 
