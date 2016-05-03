@@ -44,7 +44,7 @@
 #endif
 #endif
 #include "sha2.h"
-
+#include <stdint.h>
 /*
  * ASSERT NOTE:
  * Some sanity checking code is included using assert().  On my FreeBSD
