@@ -1,3 +1,3 @@
-#Currently Makefile was overwritten for RIOT Compatibility
-DIRS += sha2 ecc aes
+MODULE += tinydtls
+
 include $(RIOTBASE)/Makefile.base

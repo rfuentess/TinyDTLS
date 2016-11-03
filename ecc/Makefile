@@ -1,3 +1,3 @@
-#Currently Makefile was overwritten for RIOT Compatibility
-MODULE=tinydtls
+MODULE := tinydtls_ecc
+
 include $(RIOTBASE)/Makefile.base
