@@ -483,6 +483,8 @@ static inline int is_tls_ecdhe_ecdsa_with_aes_128_ccm_8(dtls_cipher_t cipher)
 /** returns true if the cipher matches TLS_PSK_WITH_AES_128_CCM_8 */
 static inline int is_tls_psk_with_aes_128_ccm_8(dtls_cipher_t cipher)
 {
+    (void) cipher;
+
 #ifdef DTLS_PSK
   return cipher == TLS_PSK_WITH_AES_128_CCM_8;
 #else
@@ -650,6 +652,8 @@ calculate_key_block(dtls_context_t *ctx,
 		    session_t *session,
 		    dtls_peer_type role) {
   (void) role;
+  (void) ctx;
+  (void) session;
   unsigned char *pre_master_secret;
   int pre_master_len = 0;
   dtls_security_parameters_t *security = dtls_security_params_next(peer);
