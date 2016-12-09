@@ -85,7 +85,7 @@ add_auth_data(rijndael_ctx *ctx, const unsigned char *msg, size_t la,
   if (!la)
     return;
 
-#ifndef WITH_CONTIKI
+#if !(defined(WITH_CONTIKI)) && !(defined(RIOT_VERSION) )
     if (la < 0xFF00) {		/* 2^16 - 2^8 */
       j = 2;
       dtls_int_to_uint16(B, la);
