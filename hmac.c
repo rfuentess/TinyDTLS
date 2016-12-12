@@ -19,6 +19,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "dtls_config.h"
+
 #ifdef HAVE_ASSERT_H
 #include <assert.h>
 #else

@@ -18,6 +18,7 @@
  *******************************************************************************/
 
 #include "tinydtls.h"
+#include "dtls_config.h"
 #include "dtls_time.h"
 
 #include <stdio.h>
