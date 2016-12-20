@@ -1,44 +1,7 @@
-This is a fork from TinyDTLS (Version from eclipse) 
-The idea is to adapt it for Riot OS (And Contiki) 
+This is a fork from TinyDTLS (Version from eclipse)
 
+This is only compatible for [RIOT OS](https://github.com/RIOT-OS/RIOT/)
 
-Search for the branch for each one:
- - RIOT-Version
+For the original TinyDTLS fork go to: [Eclipse] (https://projects.eclipse.org/projects/iot.tinydtls)
 
-In general, when "compiling" (actually configuring), multipels files
-are generated but for the constrained OS a big part of them are almost
-useless. Plus, currently the Makefile for Contiki are a little deprecated.
-And RIOT is not supported yet.
-
-p.d. This a fork from the master branch of eclipse. 
-https://git.eclipse.org/r/tinydtls/org.eclipse.tinydtls
-
-
-=============================================
-
-CONTENTS 
-
-This library contains functions and structures that can help
-constructing a single-threaded UDP server with DTLS support in
-C99. The following components are available:
-
-* dtls
-  Basic support for DTLS with pre-shared key mode.
-
-* tests
-  The subdirectory tests contains test programs that show how each
-  component is used. 
-
-BUILDING
-
-When using the code from the git repository at sourceforge, invoke
-'autoreconf' to re-create the configure script. To build for Contiki,
-place tinydtls into Contiki's apps directory and call 
-  ./configure --with-contiki.
-
-After configuration, invoke make to build the library and associated
-test programs. To add tinydtls as Contiki application, drop it into
-the apps directory and add the following line to your Makefile:
-
-  APPS += tinydtls/aes tinydtls/sha2 tinydtls/ecc tinydtls
-
+**WARNING** The Makefile included in this fork is only compatible with RIOT.
