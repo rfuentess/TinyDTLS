@@ -138,6 +138,7 @@ static const unsigned char prf_label_client[] = "client";
 static const unsigned char prf_label_server[] = "server";
 static const unsigned char prf_label_finished[] = " finished";
 
+#ifdef DTLS_ECC
 /* first part of Raw public key, the is the start of the Subject Public Key */
 static const unsigned char cert_asn1_header[] = {
   0x30, 0x59, /* SEQUENCE, length 89 bytes */
@@ -149,6 +150,7 @@ static const unsigned char cert_asn1_header[] = {
       0x03, 0x42, 0x00, /* BIT STRING, length 66 bytes, 0 bits unused */
          0x04 /* uncompressed, followed by the r und s values of the public key */
 };
+#endif
 
 #ifdef WITH_CONTIKI
 PROCESS(dtls_retransmit_process, "DTLS retransmit process");
