@@ -15,6 +15,11 @@
  *
  *******************************************************************************/
 
+#ifndef WITH_CONTIKI
+#include <pthread.h>
+#endif
+
+
 #include <stdio.h>
 
 #include "tinydtls.h"
@@ -36,9 +41,6 @@
 #include "prng.h"
 #include "netq.h"
 
-#ifndef WITH_CONTIKI
-#include <pthread.h>
-#endif
 
 #define HMAC_UPDATE_SEED(Context,Seed,Length)		\
   if (Seed) dtls_hmac_update(Context, (Seed), (Length))
