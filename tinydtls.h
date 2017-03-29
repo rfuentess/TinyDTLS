@@ -24,33 +24,18 @@
 #ifndef _DTLS_TINYDTLS_H_
 #define _DTLS_TINYDTLS_H_
 
-/** Defined to 1 if tinydtls is built with support for ECC */
-//#undef DTLS_ECC
-//#define DTLS_ECC 1
-
-/** Defined to 1 if tinydtls is built with support for PSK */
-//#undef DTLS_PSK
-//#define DTLS_PSK 1
-
-/** Defined to 1 if tinydtls is built for Contiki OS */
-/* #undef WITH_CONTIKI */
-
-#endif /* _DTLS_TINYDTLS_H_ */
-
-/*
- *  The pair of defines here  will have the major impact in session.c
- *  Where WITH_RIOT_GNRC will generate   similar approach than WITH_CONTIKI
- *  meanwhile WITH_RIOT_SOCKETS will be compiling like a Linux version
- *  with the sockets.
- *
- *  NOTE: The previous RIOT_VERSION is defined by RIOT.
- */
-#if defined(WITH_RIOT_GNRC) && defined(WITH_RIOT_SOCKETS)
+#if !defined(CONTIKI) && !defined(RIOT_VERSION)
+#include "dtls_config.h"
+#elif defined(WITH_RIOT_GNRC) && defined(WITH_RIOT_SOCKETS)
 #error "TinyDTLS for RIOT can only be compiled with the use of GNRC OR sockets."
 #elif !(defined(WITH_RIOT_GNRC)) && !(defined(WITH_RIOT_SOCKETS)) && defined(RIOT_VERSION)
 #error "TinyDTLS must be configured for RIOT with WITH_RIOT_GNRC or WITH_RIOT_SOCKETS"
-#endif
+#else /* !CONTIKI && !RIOT_VERSION */
+#include "platform-specific/platform.h"
+#endif /* !CONTIKI && !RIOT_VERSION */
 
 #if !defined(DTLS_ECC) && !defined(DTLS_PSK)
 #error "TinyDTLS requires at least one Cipher suite!"
 #endif
+
+#endif /* _DTLS_TINYDTLS_H_ */
