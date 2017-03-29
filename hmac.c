@@ -19,8 +19,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "dtls_config.h"
-
 #ifdef HAVE_ASSERT_H
 #include <assert.h>
 #else
@@ -49,7 +47,7 @@ dtls_hmac_context_free(dtls_hmac_context_t *ctx) {
 MEMB(hmac_context_storage, dtls_hmac_context_t, DTLS_HASH_MAX);
 
 static inline dtls_hmac_context_t *
-dtls_hmac_context_new() {
+dtls_hmac_context_new(void) {
   return (dtls_hmac_context_t *)memb_alloc(&hmac_context_storage);
 }
 
@@ -59,7 +57,7 @@ dtls_hmac_context_free(dtls_hmac_context_t *ctx) {
 }
 
 void
-dtls_hmac_storage_init() {
+dtls_hmac_storage_init(void) {
   memb_init(&hmac_context_storage);
 }
 #endif /* WITH_CONTIKI */

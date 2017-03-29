@@ -42,12 +42,12 @@ dtls_free_peer(dtls_peer_t *peer) {
 MEMB(peer_storage, dtls_peer_t, DTLS_PEER_MAX);
 
 void
-peer_init() {
+peer_init(void) {
   memb_init(&peer_storage);
 }
 
 static inline dtls_peer_t *
-dtls_malloc_peer() {
+dtls_malloc_peer(void) {
   return memb_alloc(&peer_storage);
 }
 

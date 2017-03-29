@@ -20,7 +20,7 @@
 
 #include <stdlib.h>
 
-#include "dtls_config.h"
+#include "tinydtls.h"
 #include "global.h"
 #include "session.h"
 
@@ -61,7 +61,7 @@ typedef enum { DTLS_LOG_EMERG=0, DTLS_LOG_ALERT, DTLS_LOG_CRIT, DTLS_LOG_WARN,
 const char *dtls_package_name(void);
 
 /** Returns a zero-terminated string with the library version. */
-const char *dtls_package_versiono(void);
+const char *dtls_package_version(void);
 
 /** Returns the current log level. */
 log_t dtls_get_log_level(void);
