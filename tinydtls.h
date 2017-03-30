@@ -30,7 +30,7 @@
 #error "TinyDTLS for RIOT can only be compiled with the use of GNRC OR sockets."
 #elif !(defined(WITH_RIOT_GNRC)) && !(defined(WITH_RIOT_SOCKETS)) && defined(RIOT_VERSION)
 #error "TinyDTLS must be configured for RIOT with WITH_RIOT_GNRC or WITH_RIOT_SOCKETS"
-#else /* !CONTIKI && !RIOT_VERSION */
+#elif defined(CONTIKI)
 #include "platform-specific/platform.h"
 #endif /* !CONTIKI && !RIOT_VERSION */
 

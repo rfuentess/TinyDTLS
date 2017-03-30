@@ -18,7 +18,6 @@
 #include <stdio.h>
 
 #include "tinydtls.h"
-#include "dtls_config.h"
 
 #ifdef HAVE_ASSERT_H
 #include <assert.h>
@@ -36,7 +35,7 @@
 #include "prng.h"
 #include "netq.h"
 
-#ifndef WITH_CONTIKI
+#if !(defined(WITH_CONTIKI)) && !(defined(RIOT_VERSION))
 #include <pthread.h>
 #endif
 

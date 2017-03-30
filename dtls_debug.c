@@ -39,7 +39,7 @@
 #define min(a,b) ((a) < (b) ? (a) : (b))
 #endif
 
-static int maxlog = DTLS_LOG_WARN;	/* default maximum log level */
+static int maxlog = DTLS_LOG_WARN;      /* default maximum log level */
 
 const char *dtls_package_name(void) {
   return PACKAGE_NAME;
@@ -83,8 +83,8 @@ static inline size_t
 print_timestamp(char *s, size_t len, clock_time_t t) {
 #ifdef HAVE_SNPRINTF
   return snprintf(s, len, "%u.%03u",
-		  (unsigned int)(t / CLOCK_SECOND),
-		  (unsigned int)(t % CLOCK_SECOND));
+                  (unsigned int)(t / CLOCK_SECOND),
+                  (unsigned int)(t % CLOCK_SECOND));
 #else /* HAVE_SNPRINTF */
   /* @todo do manual conversion of timestamp */
   return 0;
@@ -267,9 +267,9 @@ void hexdump(const unsigned char *packet, int length) {
     n++;
     if (n % 8 == 0) {
       if (n % 16 == 0)
-	printf("\n");
+        printf("\n");
       else
-	printf(" ");
+        printf(" ");
     }
   }
 }
@@ -314,16 +314,16 @@ dtls_dsrv_hexdump_log(log_t level, const char *name, const unsigned char *buf, s
 
     while (length--) {
       if (n % 16 == 0)
-	fprintf(log_fd, "%08X ", n);
+        fprintf(log_fd, "%08X ", n);
 
       fprintf(log_fd, "%02X ", *buf++);
 
       n++;
       if (n % 8 == 0) {
-	if (n % 16 == 0)
-	  fprintf(log_fd, "\n");
-	else
-	  fprintf(log_fd, " ");
+        if (n % 16 == 0)
+          fprintf(log_fd, "\n");
+        else
+          fprintf(log_fd, " ");
       }
     }
   } else {
@@ -355,16 +355,16 @@ dtls_dsrv_hexdump_log(log_t level, const char *name, const unsigned char *buf, s
 
     while (length--) {
       if (n % 16 == 0)
-	PRINTF("%08X ", n);
+        PRINTF("%08X ", n);
 
       PRINTF("%02X ", *buf++);
 
       n++;
       if (n % 8 == 0) {
-	if (n % 16 == 0)
-	  PRINTF("\n");
-	else
-	  PRINTF(" ");
+        if (n % 16 == 0)
+          PRINTF("\n");
+        else
+          PRINTF(" ");
       }
     }
   } else {
