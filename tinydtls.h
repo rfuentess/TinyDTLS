@@ -25,13 +25,15 @@
 #define _DTLS_TINYDTLS_H_
 
 #if !defined(CONTIKI) && !defined(RIOT_VERSION)
-#include "dtls_config.h"
+#  include "dtls_config.h"
 #elif defined(WITH_RIOT_GNRC) && defined(WITH_RIOT_SOCKETS)
-#error "TinyDTLS for RIOT can only be compiled with the use of GNRC OR sockets."
+#  error "TinyDTLS for RIOT can only be compiled with the use of GNRC OR sockets."
 #elif !(defined(WITH_RIOT_GNRC)) && !(defined(WITH_RIOT_SOCKETS)) && defined(RIOT_VERSION)
-#error "TinyDTLS must be configured for RIOT with WITH_RIOT_GNRC or WITH_RIOT_SOCKETS"
+#  error "TinyDTLS must be configured for RIOT with WITH_RIOT_GNRC or WITH_RIOT_SOCKETS"
+#elif defined(RIOT_VERSION)
+#  include "platform-specific/riot_boards.h"
 #elif defined(CONTIKI)
-#include "platform-specific/platform.h"
+#  include "platform-specific/platform.h"
 #endif /* !CONTIKI && !RIOT_VERSION */
 
 #if !defined(DTLS_ECC) && !defined(DTLS_PSK)
