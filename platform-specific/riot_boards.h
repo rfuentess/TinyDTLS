@@ -6,10 +6,6 @@
 #ifndef _RIOT_BOARDS_H_
 #define _RIOT_BOARDS_H_
 
-#  include "core/include/byteorder.h"
-
-
-
 /* 
  * SETTING FOR TINYDTLS OVER RIOT
  * In standard installation of TinyDTLS they are at dtls_config.h
