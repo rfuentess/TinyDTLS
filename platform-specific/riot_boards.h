@@ -140,7 +140,15 @@
 #endif
 
 /** do not use uthash's hash tables (Save ROM memory) */
-#define DTLS_PEERS_NOHASH 1
+//#define DTLS_PEERS_NOHASH 1
+
+/* The 802.15.4 ACK can provoke very fast re-transmissions with a value
+ * higher than one. This is a temporary bad behavior for the RIOT MAC
+ */
+#ifdef DTLS_DEFAULT_MAX_RETRANSMIT
+#undef DTLS_DEFAULT_MAX_RETRANSMIT
+#define DTLS_DEFAULT_MAX_RETRANSMIT 1
+#endif
 
 
 /* 
