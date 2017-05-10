@@ -1439,7 +1439,7 @@ dtls_send_handshake_msg_hash(dtls_context_t *ctx,
     data_len_array[i] = data_length;
     i++;
   }
-  dtls_debug("send handshake packet of type: %s (%i)\n",
+  dtls_info("send handshake packet of type: %s (%i)\n",
 	     dtls_handshake_type_to_name(header_type), header_type);
   return dtls_send_multi(ctx, peer, security, session, DTLS_CT_HANDSHAKE,
 			 data_array, data_len_array, i);
@@ -3113,7 +3113,7 @@ handle_handshake_msg(dtls_context_t *ctx, dtls_peer_t *peer, session_t *session,
    * respect to the current internal state for this peer. In case of
    * error, it is left with return 0. */
 
-  dtls_debug("handle handshake packet of type: %s (%i)\n",
+  dtls_info("handle handshake packet of type: %s (%i)\n",
 	     dtls_handshake_type_to_name(data[0]), data[0]);
   switch (data[0]) {
 
@@ -3477,7 +3477,7 @@ handle_handshake(dtls_context_t *ctx, dtls_peer_t *peer, session_t *session,
   }
   hs_header = DTLS_HANDSHAKE_HEADER(data);
 
-  dtls_debug("received handshake packet of type: %s (%i)\n",
+  dtls_info("received handshake packet of type: %s (%i)\n",
 	     dtls_handshake_type_to_name(hs_header->msg_type), hs_header->msg_type);
 
   if (!peer || !peer->handshake_params) {
