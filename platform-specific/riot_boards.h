@@ -6,19 +6,19 @@
 #ifndef _RIOT_BOARDS_H_
 #define _RIOT_BOARDS_H_
 
-/* 
+/*
  * SETTING FOR TINYDTLS OVER RIOT
  * In standard installation of TinyDTLS they are at dtls_config.h
  * Only those used by the main library (not test/ or test* files) are here.
- * 
+ *
  * WARNING: Dynamic memory is not working very well over RIOT.
  */
 
 
-/* RIOT supports  <assert.h> header file.  */ 
+/* RIOT supports  <assert.h> header file.  */
 #define HAVE_ASSERT_H 1
 
-/* RIOT supports  <inttypes.h> header file.  */ 
+/* RIOT supports  <inttypes.h> header file.  */
 #define HAVE_INTTYPES_H 1
 
 /* WARNING RIOT has partial support for 'malloc' functions */
@@ -88,7 +88,7 @@
 //#define HAVE_SYS_STAT_H 1
 #undef HAVE_SYS_STAT_H
 
-/* 
+/*
  * INFORMATION ABOUT TINYDTLS
  * NOTE: This is used mostly by dtls_debug
  */
@@ -113,11 +113,11 @@
 #define PACKAGE_VERSION "0.8.6.X"
 
 
-/* 
+/*
  * PERFORMANCE AND RESOURCES AVALIABLE TO THE MOTES FOR DTLS SESSIONS
- * 
- * They are used with peer.c, crypto.c and hmac.c 
- * 
+ *
+ * They are used with peer.c, crypto.c and hmac.c
+ *
  * NOTE: Those numbers are not strictly the minimum. You can adjust at will.
  *       Example: iotlab-m3 were tested with two Peers sessions.
  *
@@ -146,19 +146,19 @@
  * higher than one. This is a temporary bad behavior for the RIOT MAC
  */
 #ifdef DTLS_DEFAULT_MAX_RETRANSMIT
-#undef DTLS_DEFAULT_MAX_RETRANSMIT
-#define DTLS_DEFAULT_MAX_RETRANSMIT 1
+# undef DTLS_DEFAULT_MAX_RETRANSMIT
 #endif
+# define DTLS_DEFAULT_MAX_RETRANSMIT 1
 
 
-/* 
+/*
  * INFORMATION SHA2/ LIBRARY VARIABLES
- * 
+ *
  * TODO: Clarify the way RIOT identifies BYTE_ORDER
  */
 
-/* 
- * RIOT supports the  <inttypes.h> header file. 
+/*
+ * RIOT supports the  <inttypes.h> header file.
  * NOTE: uintXX_t definitions with the ANSI C headers instead of custom typedef
  */
 #define SHA2_USE_INTTYPES_H 1
@@ -166,16 +166,16 @@
 /** RIOT "supports" memset()/memcpy() BUT not bzero()/mcopy(). */
 #ifdef HAVE_MEMSET
 #  define SHA2_USE_MEMSET_MEMCPY 1
-#else 
+#else
 #  warning Sha2 requires the use of memset()/memcpy() (enabled with HAVE_MEMSET)
 #endif
 
-/* 
+/*
  * NOTE Gcc is who define if we are big endian or little endian.
  * Because RIOT has __BYTE_ORDER__ and BYTE_ORDER it is not clear which one
  * should take preference here. Or, if the #define inside of sha2/sha2.h
  * should be removed at all.
- */ 
+ */
 #ifndef BIG_ENDIAN
 #if !defined(__BIG_ENDIAN__)
 #    define BIG_ENDIAN    4321
