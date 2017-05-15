@@ -36,7 +36,9 @@
 #include "netq.h"
 
 #if !(defined(WITH_CONTIKI)) && !(defined(RIOT_VERSION))
-#include <pthread.h>
+# include <pthread.h>
+#elif defined(RIOT_VERSION)
+# include <mutex.h>
 #endif
 
 #define HMAC_UPDATE_SEED(Context,Seed,Length)		\
@@ -45,12 +47,16 @@
 static struct dtls_cipher_context_t cipher_context;
 #if !(defined(WITH_CONTIKI)) && !(defined(RIOT_VERSION))
 static pthread_mutex_t cipher_context_mutex = PTHREAD_MUTEX_INITIALIZER;
+#elif defined(RIOT_VERSION)
+static mutex_t cipher_context_mutex = MUTEX_INIT;
 #endif
 
 static struct dtls_cipher_context_t *dtls_cipher_context_get(void)
 {
 #if !(defined(WITH_CONTIKI)) && !(defined(RIOT_VERSION))
   pthread_mutex_lock(&cipher_context_mutex);
+#elif defined(RIOT_VERSION)
+  mutex_lock(&cipher_context_mutex);
 #endif
   return &cipher_context;
 }
@@ -59,6 +65,8 @@ static void dtls_cipher_context_release(void)
 {
 #if !(defined(WITH_CONTIKI)) && !(defined(RIOT_VERSION))
   pthread_mutex_unlock(&cipher_context_mutex);
+#elif defined(RIOT_VERSION)
+  mutex_unlock(&cipher_context_mutex);
 #endif
 }
 
@@ -566,4 +574,3 @@ error:
   dtls_cipher_context_release();
   return ret;
 }
-
