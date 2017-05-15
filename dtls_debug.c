@@ -291,7 +291,7 @@ void dtls_dsrv_log_addr(log_t level, const char *name, const session_t *addr)
   dsrv_log(level, "%s: %s\n", name, addrbuf);
 }
 
-#if !defined(CONTIKI) && !defined(RIOT_VERSION)
+#ifndef WITH_CONTIKI
 void
 dtls_dsrv_hexdump_log(log_t level, const char *name, const unsigned char *buf, size_t length, int extend) {
   static char timebuf[32];
@@ -335,7 +335,7 @@ dtls_dsrv_hexdump_log(log_t level, const char *name, const unsigned char *buf, s
 
   fflush(log_fd);
 }
-#elif defined(CONTIKI)  /* WITH_CONTIKI */
+#else /* WITH_CONTIKI */
 void
 dtls_dsrv_hexdump_log(log_t level, const char *name, const unsigned char *buf, size_t length, int extend) {
   static char timebuf[32];
@@ -373,45 +373,6 @@ dtls_dsrv_hexdump_log(log_t level, const char *name, const unsigned char *buf, s
       PRINTF("%02X", *buf++);
   }
   PRINTF("\n");
-}
-#elif defined(RIOT_VERSION)  /* WITH_CONTIKI */
-void
-dtls_dsrv_hexdump_log(log_t level, const char *name, const unsigned char *buf, size_t length, int extend) {
-  static char timebuf[32];
-  int n = 0;
-
-  if (maxlog < level)
-    return;
-
-  if (print_timestamp(timebuf,sizeof(timebuf), clock_time()))
-    DEBUG("%s ", timebuf);
-
-  if (level >= 0 && level <= DTLS_LOG_DEBUG)
-    DEBUG("%s ", loglevels[level]);
-
-  if (extend) {
-    DEBUG("%s: (%zu bytes):\n", name, length);
-
-    while (length--) {
-      if (n % 16 == 0)
-        DEBUG("%08X ", n);
-
-      DEBUG("%02X ", *buf++);
-
-      n++;
-      if (n % 8 == 0) {
-        if (n % 16 == 0)
-          DEBUG("\n");
-        else
-          DEBUG(" ");
-      }
-    }
-  } else {
-    DEBUG("%s: (%zu bytes): ", name, length);
-    while (length--)
-      DEBUG("%02X", *buf++);
-  }
-  DEBUG("\n");
 }
 #endif /* WITH_CONTIKI */
 
