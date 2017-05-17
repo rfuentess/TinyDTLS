@@ -21,46 +21,8 @@
 /* RIOT supports  <inttypes.h> header file.  */
 #define HAVE_INTTYPES_H 1
 
-/* WARNING RIOT has partial support for 'malloc' functions */
-#define HAVE_MALLOC 1
-
-
-/* RIOT supports the `memset' function. */
-#define HAVE_MEMSET 1
-
-/* RIOT does supports <netinet/in.h>  header file. */
-#define HAVE_NETINET_IN_H 1
-
-/* RIOT does not supports`select' function. */
-#undef HAVE_SELECT
-
 /* RIOT does NOT implement the member sin6_len */
 #undef HAVE_SOCKADDR_IN6_SIN6_LEN
-
-/* RIOT does supports <stddef.h>  header file. */
-#define HAVE_STDDEF_H 1
-
-/* RIOT does supports <stdint.h> header file. */
-#define HAVE_STDINT_H 1
-
-/* Define to 1 if you have the <stdlib.h> header file. */
-#define HAVE_STDLIB_H 1
-
-/* RIOT does supports <string.h> header file */
-#define HAVE_STRING_H 1
-
-
-/* RIOT supports Sockets  */
-/* TODO: This should be enable only when WITH_RIOT_SOCKETS is used  */
-//#define HAVE_SOCKET 1
-
-/* RIOT supports the <sys/socket.h> header file. */
-/* TODO: This should be enable only when WITH_RIOT_SOCKETS is used  */
-//#define HAVE_SYS_SOCKET_H 1
-
-
-/* RIOT supports the <sys/types.h> header file. */
-#define HAVE_SYS_TYPES_H 1
 
 /* RIOT supports the <sys/time.h> header file. */
 #define HAVE_SYS_TIME_H 1
@@ -68,31 +30,18 @@
 /* RIOT supports the <time.h> header file. */
 #define HAVE_TIME_H 1
 
-/* RIOT supports the <unistd.h> header file. */
-#define HAVE_UNISTD_H 1
-
+/* RIOT supports Sockets  */
+/* TODO NOTE: This should be enable by WITH_RIOT_SOCKETS  */
 
 /* RIOT has partial support for the `vprintf' function. */
 /* DANGER Removing bring issues with dtls_debug.h and dtls_debug.c */
-#define HAVE_VPRINTF 1 /* tinydtls_debug.c linea 214 tiene fatality sin esto */
-//#undef HAVE_VPRINTF
+#define HAVE_VPRINTF 1
 
-
-/* RIOT has partial support for the <sys/param.h> header file. */
-/* TODO: Should be enabled ONLY for native? */
-//#define HAVE_SYS_PARAM_H 1
-#undef HAVE_SYS_PARAM_H
-
-/* RIOT supports the <sys/stat.h> header file. */
-/* TODO: Only native? */
-//#define HAVE_SYS_STAT_H 1
-#undef HAVE_SYS_STAT_H
 
 /*
  * INFORMATION ABOUT TINYDTLS
  * NOTE: This is used mostly by dtls_debug
  */
-
 
 /* Define to the address where bug reports for this package should be sent. */
 #define PACKAGE_BUGREPORT ""
@@ -122,18 +71,29 @@
  *       Example: iotlab-m3 were tested with two Peers sessions.
  *
  * WARNING: Dynamic memory is not working very well over RIOT.
+            Therefore, adapting static memory could improve the performance
+            for RIOT nodes.
  */
 
+/* TODO: Adapt this to RIOT (currently is only for Contiki) */
 #ifndef DTLS_PEER_MAX
 /** The maximum number DTLS peers (i.e. sessions). */
 #  define DTLS_PEER_MAX 1
 #endif
 
+/* TODO: Adapt this to RIOT (currently is only for Contiki) */
 #ifndef DTLS_HANDSHAKE_MAX
 /** The maximum number of concurrent DTLS handshakes. */
 #  define DTLS_HANDSHAKE_MAX 1
 #endif
 
+/* TODO: Adapt this to RIOT (currently is only for Contiki) */
+#ifndef DTLS_SECURITY_MAX
+/** The maximum number of concurrently used cipher keys */
+#  define DTLS_SECURITY_MAX (DTLS_PEER_MAX + DTLS_HANDSHAKE_MAX)
+#endif
+
+/* TODO: Adapt this to RIOT (currently is only for Contiki) */
 #ifndef DTLS_HASH_MAX
 /** The maximum number of hash functions that can be used in parallel. */
 #  define DTLS_HASH_MAX (3 * DTLS_PEER_MAX)
@@ -163,12 +123,9 @@
  */
 #define SHA2_USE_INTTYPES_H 1
 
-/** RIOT "supports" memset()/memcpy() BUT not bzero()/mcopy(). */
-#ifdef HAVE_MEMSET
-#  define SHA2_USE_MEMSET_MEMCPY 1
-#else
-#  warning Sha2 requires the use of memset()/memcpy() (enabled with HAVE_MEMSET)
-#endif
+/* RIOT "supports" memset()/memcpy() BUT not bzero()/mcopy(). */
+#define SHA2_USE_MEMSET_MEMCPY 1
+
 
 /*
  * NOTE Gcc is who define if we are big endian or little endian.
