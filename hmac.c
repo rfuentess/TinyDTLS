@@ -29,7 +29,7 @@
 #include "hmac.h"
 
 /* use malloc()/free() on platforms other than Contiki */
-#ifndef WITH_CONTIKI
+#if !(defined (WITH_CONTIKI) && !(defined (RIOT_VERSION))
 #include <stdlib.h>
 
 static inline dtls_hmac_context_t *
@@ -42,7 +42,7 @@ dtls_hmac_context_free(dtls_hmac_context_t *ctx) {
   free(ctx);
 }
 
-#else /* WITH_CONTIKI */
+#elif defined (WITH_CONTIKI) /* WITH_CONTIKI */
 #include "memb.h"
 MEMB(hmac_context_storage, dtls_hmac_context_t, DTLS_HASH_MAX);
 
@@ -60,6 +60,28 @@ void
 dtls_hmac_storage_init(void) {
   memb_init(&hmac_context_storage);
 }
+
+#elif defined (RIOT_VERSION)
+
+#include "memarray.h"
+MEMARRAY(hmac_context_storage, dtls_hmac_context_t, DTLS_HASH_MAX);
+
+static inline dtls_hmac_context_t *
+dtls_hmac_context_new(void) {
+  return (dtls_hmac_context_t *)memarray_alloc(&hmac_context_storage);
+}
+
+static inline void
+dtls_hmac_context_free(dtls_hmac_context_t *ctx) {
+  memarray_free(&hmac_context_storage, ctx);
+}
+
+void
+dtls_hmac_storage_init(void) {
+  memarray_init(&hmac_context_storage);
+}
+
+
 #endif /* WITH_CONTIKI */
 
 void

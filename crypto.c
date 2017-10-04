@@ -70,7 +70,7 @@ static void dtls_cipher_context_release(void)
 #endif
 }
 
-#if !(defined(WITH_CONTIKI))
+#if !(defined (WITH_CONTIKI) && !(defined (RIOT_VERSION))
 void crypto_init(void)
 {
 }
@@ -90,7 +90,7 @@ static dtls_security_parameters_t *dtls_security_malloc(void) {
 static void dtls_security_dealloc(dtls_security_parameters_t *security) {
   free(security);
 }
-#else /* WITH_CONTIKI */
+#elif defined (WITH_CONTIKI) /* WITH_CONTIKI */
 
 #include "memb.h"
 MEMB(handshake_storage, dtls_handshake_parameters_t, DTLS_HANDSHAKE_MAX);
@@ -116,6 +116,34 @@ static dtls_security_parameters_t *dtls_security_malloc(void) {
 static void dtls_security_dealloc(dtls_security_parameters_t *security) {
   memb_free(&security_storage, security);
 }
+
+#elif defined (RIOT_VERSION)
+
+#include "memarray.h"
+MEMARRAY(handshake_storage, dtls_handshake_parameters_t, DTLS_HANDSHAKE_MAX);
+MEMARRAY(security_storage, dtls_security_parameters_t, DTLS_SECURITY_MAX);
+
+void crypto_init(void) {
+  memarray_init(&handshake_storage);
+  memarray_init(&security_storage);
+}
+
+static dtls_handshake_parameters_t *dtls_handshake_malloc(void) {
+  return memarray_alloc(&handshake_storage);
+}
+
+static void dtls_security_dealloc(dtls_security_parameters_t *security) {
+  memarray_free(&security_storage, security);
+}
+
+static dtls_security_parameters_t *dtls_security_malloc(void) {
+  return memarray_alloc(&security_storage);
+}
+
+static void dtls_security_dealloc(dtls_security_parameters_t *security) {
+  memarray_free(&security_storage, security);
+}
+
 #endif /* WITH_CONTIKI */
 
 dtls_handshake_parameters_t *dtls_handshake_new(void)
