@@ -120,12 +120,12 @@ static void dtls_security_dealloc(dtls_security_parameters_t *security) {
 #elif defined (RIOT_VERSION)
 
 #include "memarray.h"
-MEMARRAY(handshake_storage, sizeof(dtls_handshake_parameters_t), DTLS_HANDSHAKE_MAX);
-MEMARRAY(security_storage,  sizeof(dtls_security_parameters_t), DTLS_SECURITY_MAX);
+MEMARRAY(handshake_storage, sizeof(dtls_handshake_parameters_t), DTLS_HANDSHAKE_MAX)
+MEMARRAY(security_storage,  sizeof(dtls_security_parameters_t), DTLS_SECURITY_MAX)
 
 void crypto_init(void) {
-  memarray_init(&handshake_storage);
-  memarray_init(&security_storage);
+  memarray_init(&handshake_storage, sizeof(dtls_handshake_parameters_t), DTLS_HANDSHAKE_MAX);
+  memarray_init(&security_storage, sizeof(dtls_security_parameters_t), DTLS_SECURITY_MAX);
 }
 
 static dtls_handshake_parameters_t *dtls_handshake_malloc(void) {
@@ -140,8 +140,8 @@ static dtls_security_parameters_t *dtls_security_malloc(void) {
   return memarray_alloc(&security_storage);
 }
 
-static void dtls_security_dealloc(dtls_security_parameters_t *security) {
-  memarray_free(&security_storage, security);
+static void dtls_handshake_dealloc(dtls_handshake_parameters_t *handshake) {
+  memarray_free(&handshake_storage, handshake);
 }
 
 #endif /* WITH_CONTIKI */
