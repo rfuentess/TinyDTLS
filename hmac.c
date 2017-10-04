@@ -64,7 +64,7 @@ dtls_hmac_storage_init(void) {
 #elif defined (RIOT_VERSION)
 
 #include "memarray.h"
-MEMARRAY(hmac_context_storage, dtls_hmac_context_t, DTLS_HASH_MAX);
+MEMARRAY(hmac_context_storage, sizeof(dtls_hmac_context_t), DTLS_HASH_MAX)
 
 static inline dtls_hmac_context_t *
 dtls_hmac_context_new(void) {
@@ -78,7 +78,7 @@ dtls_hmac_context_free(dtls_hmac_context_t *ctx) {
 
 void
 dtls_hmac_storage_init(void) {
-  memarray_init(&hmac_context_storage);
+  memarray_init(&hmac_context_storage, sizeof(dtls_hmac_context_t), DTLS_HASH_MAX);
 }
 
 

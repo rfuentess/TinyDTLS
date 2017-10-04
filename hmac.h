@@ -49,7 +49,7 @@ dtls_hash_finalize(unsigned char *buf, dtls_hash_t ctx) {
 }
 #endif /* WITH_SHA256 */
 
-#ifndef WITH_CONTIKI
+#if !(defined (WITH_CONTIKI)) && !(defined (RIOT_VERSION))
 static inline void dtls_hmac_storage_init(void)
 { }
 #else
