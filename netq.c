@@ -64,10 +64,11 @@ netq_init() {
 #elif defined (RIOT_VERSION)
 
 #include "memarray.h"
-MEMARRAY(netq_storage, sizeof(netq_t), NETQ_MAXCNT);
+MEMARRAY(netq_storage, sizeof(netq_t), NETQ_MAXCNT)
 
 static inline netq_t *
 netq_malloc_node(size_t size) {
+  (void) size;
   return (netq_t *)memarray_alloc(&netq_storage);
 }
 
@@ -77,7 +78,7 @@ netq_free_node(netq_t *node) {
 }
 
 void
-netq_init() {
+netq_init(void) {
   memarray_init(&netq_storage, sizeof(netq_t), NETQ_MAXCNT);
 }
 
