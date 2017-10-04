@@ -70,7 +70,7 @@ static void dtls_cipher_context_release(void)
 #endif
 }
 
-#if !(defined (WITH_CONTIKI) && !(defined (RIOT_VERSION))
+#if !(defined (WITH_CONTIKI)) && !(defined (RIOT_VERSION))
 void crypto_init(void)
 {
 }
