@@ -19,7 +19,7 @@
 #include "peer.h"
 #include "dtls_debug.h"
 
-#if !(defined (WITH_CONTIKI) && !(defined (RIOT_VERSION))
+#if !(defined (WITH_CONTIKI)) && !(defined (RIOT_VERSION))
 void peer_init(void)
 {
 }

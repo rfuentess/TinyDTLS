@@ -29,7 +29,7 @@
 #include "hmac.h"
 
 /* use malloc()/free() on platforms other than Contiki */
-#if !(defined (WITH_CONTIKI) && !(defined (RIOT_VERSION))
+#if !(defined (WITH_CONTIKI)) && !(defined (RIOT_VERSION))
 #include <stdlib.h>
 
 static inline dtls_hmac_context_t *
