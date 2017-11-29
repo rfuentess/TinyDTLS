@@ -195,6 +195,7 @@ dtls_init(void) {
   crypto_init();
   netq_init();
   peer_init();
+  dtls_hmac_storage_init();
 }
 
 /* Calls cb_alert() with given arguments if defined, otherwise an
