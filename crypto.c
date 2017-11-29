@@ -312,7 +312,7 @@ dtls_ccm_encrypt(aes128_ccm_t *ccm_ctx, const unsigned char *src, size_t srclen,
 		 unsigned char *buf,
 		 unsigned char *nounce,
 		 const unsigned char *aad, size_t la) {
-  (void) src;
+
   long int len;
   (void)src;
 
