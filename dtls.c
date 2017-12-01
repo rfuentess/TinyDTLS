@@ -59,6 +59,11 @@
 #  include "sha2/sha2.h"
 #endif
 
+#ifdef RIOT_VERSION
+#include "memarray.h"
+MEMARRAY(dtlscontext_storage, sizeof(dtls_context_t), DTLS_CONTEXT_MAX)
+#endif
+
 #define dtls_set_version(H,V) dtls_int_to_uint16((H)->version, (V))
 #define dtls_set_content_type(H,V) ((H)->content_type = (V) & 0xff)
 #define dtls_set_length(H,V)  ((H)->length = (V))
@@ -162,7 +167,7 @@ static const unsigned char cert_asn1_header[] = {
 };
 #endif /* DTLS_ECC */
 
-#ifdef WITH_CONTIKI
+#if defined(WITH_CONTIKI)
 PROCESS(dtls_retransmit_process, "DTLS retransmit process");
 
 static dtls_context_t the_dtls_context;
@@ -174,6 +179,16 @@ malloc_context(void) {
 
 static inline void
 free_context(dtls_context_t *context) {
+}
+
+#elif defined(RIOT_VERSION)
+
+static inline dtls_context_t *  malloc_context(void) {
+     return (dtls_context_t *) memarray_alloc(&dtlscontext_storage);
+}
+
+static inline void free_context(dtls_context_t *context) {
+  memarray_free(&dtlscontext_storage, context);
 }
 
 #else /* WITH_CONTIKI */
@@ -196,6 +211,11 @@ dtls_init(void) {
   netq_init();
   peer_init();
   dtls_hmac_storage_init();
+
+#ifdef RIOT_VERSION
+  memarray_init(&dtlscontext_storage, sizeof(dtls_context_t), 3);
+#endif
+
 }
 
 /* Calls cb_alert() with given arguments if defined, otherwise an
