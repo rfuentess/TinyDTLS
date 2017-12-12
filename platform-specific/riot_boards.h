@@ -84,13 +84,11 @@
 #  define DTLS_PEER_MAX 1
 #endif
 
-/* TODO: Adapt this to RIOT (currently is only for Contiki) */
 #ifndef DTLS_HANDSHAKE_MAX
 /** The maximum number of concurrent DTLS handshakes. */
 #  define DTLS_HANDSHAKE_MAX 1
 #endif
 
-/* TODO: Adapt this to RIOT (currently is only for Contiki) */
 #ifndef DTLS_SECURITY_MAX
 /** The maximum number of concurrently used cipher keys */
 #  define DTLS_SECURITY_MAX (DTLS_PEER_MAX + DTLS_HANDSHAKE_MAX)
@@ -108,10 +106,9 @@
 /* The 802.15.4 ACK can provoke very fast re-transmissions with a value
  * higher than one. This is a temporary bad behavior for the RIOT MAC
  */
-#ifdef DTLS_DEFAULT_MAX_RETRANSMIT
-# undef DTLS_DEFAULT_MAX_RETRANSMIT
-#endif
+#ifndef DTLS_DEFAULT_MAX_RETRANSMIT
 # define DTLS_DEFAULT_MAX_RETRANSMIT 1
+#endif
 
 
 /*
