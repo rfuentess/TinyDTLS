@@ -213,7 +213,7 @@ dtls_init(void) {
   dtls_hmac_storage_init();
 
 #ifdef RIOT_VERSION
-  memarray_init(&dtlscontext_storage, sizeof(dtls_context_t), 3);
+  memarray_init(&dtlscontext_storage, sizeof(dtls_context_t), DTLS_CONTEXT_MAX);
 #endif
 
 }
